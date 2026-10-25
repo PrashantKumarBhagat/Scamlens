@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ScamLens – Know the risks before you pay</title>
+<style>
+:root{--ink:#0F1B2D;--mut:#475467;--pri:#0B6E6E;--bg:#F4F7FA;--line:#D0D5DD;--card:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:480px;margin:0 auto;padding:24px 20px 40px;display:flex;flex-direction:column;gap:16px}
+h1{font-size:28px;line-height:1.2;margin:0}
+h2{font-size:18px;margin:0 0 8px}
+p{margin:0}
+.brand{display:flex;align-items:center;gap:8px;font-size:22px;font-weight:700}
+.m{color:var(--mut);font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;min-height:48px;border-radius:12px;font-weight:600;width:100%;padding:0 16px}
+.p{background:var(--pri);color:#fff;border:0}
+.s{background:#fff;color:var(--pri);border:1px solid var(--pri)}
+.seg{display:flex;gap:8px}
+.seg button{flex:1}
+.seg [aria-pressed=false]{background:#fff;color:var(--pri);border:1px solid var(--pri)}
+.seg [aria-pressed=true]{background:var(--pri);color:#fff;border:0}
+textarea,input{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+textarea{height:170px;resize:vertical}
+input{min-height:48px}
+label{font-weight:600;font-size:15px;display:block;margin-bottom:6px}
+.row{display:flex;gap:12px}.row>div{flex:1}
+:focus-visible{outline:3px solid #F79009;outline-offset:2px}
+.banner{border-radius:14px;padding:16px}
+.banner strong{font-size:20px;display:block}
+.lv0{background:#E0F2F1;color:#0B5A5A}.lv1{background:#FEF0C7;color:#93370D}.lv2,.lv3{background:#FEE4E2;color:#912018}
+.bar{display:flex;gap:4px;margin-top:10px}.bar i{flex:1;height:6px;border-radius:3px;background:rgba(0,0,0,.12)}.bar i.on{background:currentColor}
+.flag{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #EAECF0}.flag:last-child{border:0;padding-bottom:0}.flag:first-child{padding-top:0}
+.flag b{display:block}
+ul{margin:0;padding-left:20px;line-height:1.7}
+.quote{font-size:16px;line-height:1.5}
+a{color:var(--pri)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+<div class="brand"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0B6E6E" stroke-width="2" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>ScamLens</div>
+
+<!-- Screen 1 -->
+<section id="v1" style="display:flex;flex-direction:column;gap:16px" aria-labelledby="h1t">
+<div><h1 id="h1t">Know the risks before you pay.</h1><p class="m" style="margin-top:8px;font-size:15px">Paste a Facebook Marketplace message and get plain-English warning signs.</p></div>
+<div class="seg" role="group" aria-label="I am">
+<button id="mBuy" class="" aria-pressed="true" type="button">I'm buying</button>
+<button id="mSell" aria-pressed="false" type="button">I'm selling</button>
+</div>
+<div><label for="msg">Message to check</label>
+<textarea id="msg" placeholder="Paste the message here"></textarea></div>
+<div class="row" id="prices"><div><label for="pr">Listing price ($)</label><input id="pr" inputmode="decimal"></div><div><label for="us">Usual price ($)</label><input id="us" inputmode="decimal"></div></div>
+<button class="p" id="check" type="button">Check warning signs</button>
+<button class="s" id="sample" type="button">Try an example</button>
+<p class="m" style="text-align:center">Checked on your device. Nothing is uploaded. ScamLens can't confirm a deal is safe or a scam.</p>
+</section>
+
+<!-- Screen 2 -->
+<section id="v2" hidden style="flex-direction:column;gap:16px" aria-live="polite">
+<div id="banner" class="banner"></div>
+<div class="card" id="flags"></div>
+<button class="p" id="toReply" type="button">Get a safe reply</button>
+<button class="s" id="toPaid" type="button">I've already paid. What now?</button>
+<button class="s" id="back" type="button">Check another message</button>
+</section>
+
+<!-- Screen 3 -->
+<section id="v3" hidden style="flex-direction:column;gap:16px">
+<h2 style="font-size:22px;margin:0">Safe Transaction Assistant</h2>
+<div class="card"><p class="m" style="font-weight:600;margin-bottom:6px">Suggested reply</p><p class="quote" id="reply"></p></div>
+<button class="p" id="copy" type="button">Copy message</button>
+<div class="card"><h2>Safety checklist</h2><ul id="list"></ul></div>
+<button class="s" id="next" type="button">Check their reply</button>
+<button class="s" id="back2" type="button">Back to warning signs</button>
+</section>
+
+<!-- Paid -->
+<section id="v4" hidden style="flex-direction:column;gap:16px">
+<h2 style="font-size:22px;margin:0">Already sent money?</h2>
+<div class="card"><ul>
+<li><b>Call your bank's fraud line now.</b> Ask them to recall or stop the payment. Speed matters.</li>
+<li>Report it to <a href="https://www.scamwatch.gov.au/" target="_blank" rel="noopener">Scamwatch</a> and <a href="https://www.cyber.gov.au/report-and-recover/report" target="_blank" rel="noopener">ReportCyber</a>.</li>
+<li>Get recovery support from <a href="https://www.idcare.org/" target="_blank" rel="noopener">IDCARE</a> (1800 595 160).</li>
+<li>Stop replying to the seller and keep screenshots as evidence.</li>
+</ul></div>
+<button class="s" id="back3" type="button">Back</button>
+</section>
+
+<p class="m">Guidance only. Learn more at <a href="https://www.scamwatch.gov.au/" target="_blank" rel="noopener">scamwatch.gov.au</a>.</p>
+</main>
+
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var mode='buy',last=null;
+var RULES=[
+{id:'deposit',m:['buy'],w:3,re:/\b(deposit|reserve|reservation|hold (it|the)|secure (it|the)|booking fee)\b/i,t:'Deposit before inspection',y:'Paying up front to "reserve" an item is a common scam step.'},
+{id:'urgency',m:['buy','sell'],w:2,re:/\b(other buyers|many buyers|someone else|first to pay|hurry|today only|won't last|asap|act fast|waiting)\b/i,t:'Pressure to act fast',y:'Urgency stops you from checking things properly.'},
+{id:'pay',m:['buy','sell'],w:2,re:/\b(payid|osko|bank transfer|direct deposit|western union|gift ?card|itunes|crypto|bitcoin|zelle|cash ?app|prepaid)\b/i,t:'Hard-to-reverse payment method',y:'Instant transfers and gift cards are very hard to recover.'},
+{id:'off',m:['buy','sell'],w:2,re:/\b(whatsapp|telegram|signal|gmail|email me|text me|move (this )?(chat|conversation))\b/i,t:'Moving off Marketplace',y:'Scammers move chats away from platform protections.'},
+{id:'conf',m:['sell'],w:3,re:/(i('ve| have) (paid|sent|transferred)|payment (sent|received|pending|confirmation)|funds (on hold|pending|will be released)|upgrade your (account|seller)|verify your (account|payment))/i,t:'Payment confirmation to act on',y:'Fake "payment sent" notices often ask you to click a link or pay a fee. Only trust your own bank app.'},
+{id:'over',m:['sell'],w:3,re:/(overpa|extra (money|\$)|refund the difference|send (the )?(rest|difference|change) back|pay (my|the) (courier|agent))/i,t:'Overpayment or refund request',y:'Classic scam: pay too much, then ask for the difference back.'},
+{id:'cour',m:['sell'],w:2,re:/\b(courier|shipping agent|delivery agent|pick ?up agent|my agent|freight)\b/i,t:'Courier or agent arranged by the buyer',y:'Fake courier sites collect card or bank details.'},
+{id:'meet',m:['buy'],w:2,re:/(can't meet|cannot meet|out of town|overseas|interstate|deployed|no inspection|can't inspect|post it|ship it)/i,t:'No chance to inspect in person',y:'Not being able to meet is a common reason scammers give.'},
+{id:'link',m:['buy','sell'],w:2,re:/(https?:\/\/|www\.|bit\.ly)/i,t:'Link in the message',y:'Don\'t enter card or bank details on a link a stranger sends.'},
+{id:'info',m:['buy','sell'],w:3,re:/(card number|cvv|password|login code|verification code|\botp\b|one[- ]time|licen[cs]e photo|id photo)/i,t:'Asks for sensitive details',y:'Sellers and buyers never need your codes or passwords.'}
+];
+function num(v){var n=parseFloat(String(v).replace(/[^0-9.]/g,''));return isNaN(n)?0:n}
+function analyse(){
+var t=$('msg').value,hits=[],s=0;
+RULES.forEach(function(r){if(r.m.indexOf(mode)>-1&&r.re.test(t)){hits.push(r);s+=r.w}});
+var p=num($('pr').value),u=num($('us').value);
+if(mode==='buy'&&p>0&&u>0&&p<u*0.7){var d=Math.round((1-p/u)*100),w=p<u*0.5?3:2;hits.push({id:'price',w:w,t:'Price well below usual',y:'$'+p+' is about '+d+'% below $'+u+'. Very low prices attract scammers.'});s+=w}
+var lv=s===0?0:s<=2?1:s<=4?2:3;
+last={hits:hits,lv:lv,msg:t};return last}
+var LV=[['No common warning signs found','That doesn\'t mean it\'s safe. Keep checking before you pay.'],['Some warning signs','Take it slowly and check the items below.'],['Several warning signs','Don\'t send money yet.'],['Strong warning signs','Don\'t send money. These are common scam patterns.']];
+function show(id){['v1','v2','v3','v4'].forEach(function(v){var e=$(v);e.hidden=v!==id;if(v===id)e.style.display='flex'});window.scrollTo(0,0)}
+var ICON='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="2" aria-hidden="true" style="flex:none;margin-top:2px"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/></svg>';
+function render(){
+var r=last,b=$('banner');b.className='banner lv'+r.lv;
+var bar='<div class="bar" aria-hidden="true">';for(var i=0;i<4;i++)bar+='<i class="'+(i<r.lv?'on':'')+'"></i>';bar+='</div>';
+b.innerHTML='<strong>'+LV[r.lv][0]+'</strong><span style="font-size:14px">'+r.hits.length+' flag'+(r.hits.length===1?'':'s')+' found. '+LV[r.lv][1]+'</span>'+bar;
+$('flags').innerHTML=r.hits.length?r.hits.map(function(h){return '<div class="flag">'+ICON+'<div><b>'+h.t+'</b><span class="m">'+h.y+'</span></div></div>'}).join(''):'<p class="m">No rule matched. Scammers vary, so trust your instincts and use the checklist.</p>';
+show('v2')}
+function reply(){
+var ids=last.hits.map(function(h){return h.id}),has=function(x){return ids.indexOf(x)>-1},o=[];
+if(mode==='buy'){
+o.push(has('deposit')||has('pay')?'Thanks for confirming availability. I\'d prefer to inspect the item before making any payment.':'Thanks for your reply. I\'d like to inspect the item before paying.');
+o.push(has('meet')?'Can we arrange a public pickup, or a video call showing the item working?':'Can we arrange a public meeting location?');
+if(has('off'))o.push('I\'d like to keep chatting here on Marketplace.');
+}else{
+o.push(has('conf')||has('link')?'Thanks. I only release items once the money shows in my own bank app, and I don\'t use links or account upgrades.':'Thanks for your interest. I\'ll hand over the item once payment shows in my own bank app.');
+if(has('over'))o.push('I can only accept the agreed price, so I can\'t send any difference back.');
+if(has('cour')||has('off'))o.push('Pickup in person only, and I\'d like to keep chatting here on Marketplace.');
+}
+return o.join(' ')}
+function checklist(){
+return mode==='buy'?['Meet in a busy public place','Inspect the item before paying','Pay on collection, not to "reserve"','Check the seller\'s profile age and reviews','Never share codes, passwords or card details']:['Confirm funds in your own banking app','Never click payment or "upgrade" links','Hand over the item only after payment clears','Don\'t refund overpayments','Meet in a busy public place']}
+function setMode(m){mode=m;$('mBuy').setAttribute('aria-pressed',m==='buy');$('mSell').setAttribute('aria-pressed',m==='sell');$('prices').style.display=m==='buy'?'flex':'none'}
+$('mBuy').onclick=function(){setMode('buy')};$('mSell').onclick=function(){setMode('sell')};
+$('sample').onclick=function(){setMode('buy');$('msg').value='Hi, the iPhone is still available for $450. I have other buyers waiting. Send $100 via PayID now to reserve it.';$('pr').value='450';$('us').value='800'};
+$('check').onclick=function(){if(!$('msg').value.trim()){$('msg').focus();return}analyse();render()};
+$('toReply').onclick=function(){$('reply').textContent=reply();$('list').innerHTML=checklist().map(function(x){return '<li>'+x+'</li>'}).join('');$('copy').textContent='Copy message';show('v3')};
+$('copy').onclick=function(){var t=$('reply').textContent,b=$('copy');var ok=function(){b.textContent='Copied'};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,ok)}else{ok()}};
+$('toPaid').onclick=function(){show('v4')};
+$('back').onclick=function(){show('v1')};$('back2').onclick=function(){render()};$('back3').onclick=function(){show('v2')};
+$('next').onclick=function(){$('msg').value='';show('v1');$('msg').focus()};
+setMode('buy');show('v1');
+})();
+</script>
+</body>
+</html>
