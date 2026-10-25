@@ -1,0 +1,246 @@
+[
+  {
+    "id": "scam-sell-01",
+    "mode": "sell",
+    "type": "scam",
+    "description": "PayID business upgrade email phishing",
+    "message": "I will make payment via PayID now. Can you check your email (including spam) for the confirmation from PayID? You might need to upgrade your account to a business limit first and I'll send extra to cover it.",
+    "expectedLevel": 3
+  },
+  {
+    "id": "scam-sell-02",
+    "mode": "sell",
+    "type": "scam",
+    "description": "Courier pickup agent with upfront direct deposit",
+    "message": "I'm at work right now so my courier from AusPost delivery agent will come pick it up from your address tomorrow. I will pay upfront via direct deposit, just need your email and full name.",
+    "expectedLevel": 2
+  },
+  {
+    "id": "scam-sell-03",
+    "mode": "sell",
+    "type": "scam",
+    "description": "Overpayment refund request to courier",
+    "message": "I've accidentally overpaid by $250 in the bank transfer. Could you please refund the difference to my courier agent via PayID so they can collect the couch today?",
+    "expectedLevel": 3
+  },
+  {
+    "id": "scam-sell-04",
+    "mode": "sell",
+    "type": "scam",
+    "description": "Pressure to act fast and move to WhatsApp",
+    "message": "Hi mate, very interested. Can't check Facebook much, please message my brother on WhatsApp +61488990011 asap, he is ready to pay today only.",
+    "expectedLevel": 2
+  },
+  {
+    "id": "scam-sell-05",
+    "mode": "sell",
+    "type": "scam",
+    "description": "Fake payment sent confirmation with suspicious link",
+    "message": "Payment sent! Here is the official receipt and transfer tracking link: https://auspost-secure-funds.cc/collect-pay. Please click to verify your payment.",
+    "expectedLevel": 3
+  },
+  {
+    "id": "scam-sell-06",
+    "mode": "sell",
+    "type": "scam",
+    "description": "Demanding SMS verification code / OTP",
+    "message": "I am about to transfer the money via Osko, but my bank sent an SMS verification code to confirm you are the genuine seller. What is the 6 digit code you received?",
+    "expectedLevel": 3
+  },
+  {
+    "id": "scam-sell-07",
+    "mode": "sell",
+    "type": "scam",
+    "description": "Overseas offshore rig worker using shipping agent",
+    "message": "I'm buying this for my cousin as a wedding gift. I am currently deployed overseas on an offshore rig so I cannot meet in person. My shipping agent will handle the pickup once funds are transferred.",
+    "expectedLevel": 2
+  },
+  {
+    "id": "scam-sell-08",
+    "mode": "sell",
+    "type": "scam",
+    "description": "Gift card request with overpayment",
+    "message": "Can you include a $100 Apple iTunes gift card with the package for my nephew? I will add extra money to the bank transfer to compensate you for your trouble.",
+    "expectedLevel": 3
+  },
+  {
+    "id": "scam-buy-09",
+    "mode": "buy",
+    "type": "scam",
+    "description": "Deposit to hold item with urgency",
+    "message": "Hi mate, lots of other buyers are messaging me for this PS5. If you want me to hold it for you, send a $50 deposit via PayID now or it won't last.",
+    "expectedLevel": 3
+  },
+  {
+    "id": "scam-buy-10",
+    "mode": "buy",
+    "type": "scam",
+    "description": "Interstate relocation cannot meet in person",
+    "message": "The car is located in regional QLD and I cannot meet for inspection as I recently relocated for work. I can post it via freight once you pay direct deposit.",
+    "expectedLevel": 2
+  },
+  {
+    "id": "scam-buy-11",
+    "mode": "buy",
+    "type": "scam",
+    "description": "Cryptocurrency only payment demand",
+    "message": "I only accept payment in crypto via Bitcoin or USDT before sending the item through express courier.",
+    "expectedLevel": 2
+  },
+  {
+    "id": "scam-buy-12",
+    "mode": "buy",
+    "type": "scam",
+    "description": "Phishing link for booking inspection slot",
+    "message": "Due to high demand, please confirm your inspection booking slot at http://gumtree-secure-booking.me/reserve?item=8894 to secure the item.",
+    "expectedLevel": 3
+  },
+  {
+    "id": "scam-buy-13",
+    "mode": "buy",
+    "type": "scam",
+    "description": "Reservation booking fee before address",
+    "message": "To prevent time wasters, you must transfer a $100 reservation booking fee to our secure account before I give you the pickup address.",
+    "expectedLevel": 2
+  },
+  {
+    "id": "scam-buy-14",
+    "mode": "buy",
+    "type": "scam",
+    "description": "Asking for sensitive photo of driver license and card number",
+    "message": "Before I give you my address for pickup, please send a photo of your Australian drivers license and card number to verify your identity.",
+    "expectedLevel": 2
+  },
+  {
+    "id": "scam-buy-15",
+    "mode": "buy",
+    "type": "scam",
+    "description": "Absurdly low price with cannot meet",
+    "message": "Brand new iPhone 16 Pro Max 256GB still sealed, selling for $350 today only because I got a work upgrade. Can't meet up, will ship it if you pay upfront.",
+    "price": 350,
+    "usualPrice": 1800,
+    "expectedLevel": 3
+  },
+  {
+    "id": "genuine-sell-01",
+    "mode": "sell",
+    "type": "genuine",
+    "description": "Standard availability check",
+    "message": "Hi, is this still available? Cheers.",
+    "expectedLevel": 0
+  },
+  {
+    "id": "genuine-sell-02",
+    "mode": "sell",
+    "type": "genuine",
+    "description": "Polite cash on pickup offer",
+    "message": "Hey mate, would you take $40 cash on pickup tomorrow afternoon around 5pm? I'm in Parramatta.",
+    "expectedLevel": 0
+  },
+  {
+    "id": "genuine-sell-03",
+    "mode": "sell",
+    "type": "genuine",
+    "description": "Question about condition and accessories",
+    "message": "Hi! Does this have any scratches on the screen, and does it come with the original charger and box?",
+    "expectedLevel": 0
+  },
+  {
+    "id": "genuine-sell-04",
+    "mode": "sell",
+    "type": "genuine",
+    "description": "Asking for dimensions",
+    "message": "Hi there, could you please let me know the dimensions of the table? Need to check if it fits in my hatchback.",
+    "expectedLevel": 0
+  },
+  {
+    "id": "genuine-sell-05",
+    "mode": "sell",
+    "type": "genuine",
+    "description": "Arranging local meetup in car park with cash",
+    "message": "Thanks mate, see you at the Woolworths car park on Saturday morning. I'll bring exact cash.",
+    "expectedLevel": 0
+  },
+  {
+    "id": "genuine-sell-06",
+    "mode": "sell",
+    "type": "genuine",
+    "description": "Polite counteroffer with weekend pickup",
+    "message": "Hi, would you consider $120? Can collect anytime this weekend.",
+    "expectedLevel": 0
+  },
+  {
+    "id": "genuine-sell-07",
+    "mode": "sell",
+    "type": "genuine",
+    "description": "Asking for receipt for warranty",
+    "message": "G'day, do you still have the original receipt or proof of purchase from JB Hi-Fi for warranty?",
+    "expectedLevel": 0
+  },
+  {
+    "id": "genuine-sell-08",
+    "mode": "sell",
+    "type": "genuine",
+    "description": "Coordinating pickup time after work",
+    "message": "I can swing by after work around 6:30pm to grab it if that suits you? Let me know the suburb.",
+    "expectedLevel": 0
+  },
+  {
+    "id": "genuine-buy-09",
+    "mode": "buy",
+    "type": "genuine",
+    "description": "Seller inviting in-person inspection",
+    "message": "Yes, still available! You're welcome to come inspect it. We are in Marrickville near the station.",
+    "expectedLevel": 0
+  },
+  {
+    "id": "genuine-buy-10",
+    "mode": "buy",
+    "type": "genuine",
+    "description": "Seller offering daylight testing",
+    "message": "Sure thing, feel free to drop by tomorrow in daylight so you can test it out before deciding.",
+    "expectedLevel": 0
+  },
+  {
+    "id": "genuine-buy-11",
+    "mode": "buy",
+    "type": "genuine",
+    "description": "Seller stating cash preference on collection",
+    "message": "Hi mate, cash on collection is preferred when you pick it up. Let me know when you're on your way.",
+    "expectedLevel": 0
+  },
+  {
+    "id": "genuine-buy-12",
+    "mode": "buy",
+    "type": "genuine",
+    "description": "Item history and reason for selling",
+    "message": "Bought it about 6 months ago from Bunnings, barely used and works like new. Selling as we are moving house.",
+    "expectedLevel": 0
+  },
+  {
+    "id": "genuine-buy-13",
+    "mode": "buy",
+    "type": "genuine",
+    "description": "Normal price negotiation",
+    "message": "I listed it at $150, but lowest I could do is $130 if you can collect. Cheers.",
+    "price": 130,
+    "usualPrice": 150,
+    "expectedLevel": 0
+  },
+  {
+    "id": "genuine-buy-14",
+    "mode": "buy",
+    "type": "genuine",
+    "description": "Seller asking what time works",
+    "message": "Hi mate, tomorrow between 10am and 2pm works best for me. Does that suit your schedule?",
+    "expectedLevel": 0
+  },
+  {
+    "id": "genuine-buy-15",
+    "mode": "buy",
+    "type": "genuine",
+    "description": "Arrival instructions",
+    "message": "No worries at all, ping me when you arrive out the front and I'll bring it down.",
+    "expectedLevel": 0
+  }
+]
