@@ -38,6 +38,8 @@ label{font-weight:600;font-size:15px;display:block;margin-bottom:6px}
 ul{margin:0;padding-left:20px;line-height:1.7}
 .quote{font-size:16px;line-height:1.5}
 a{color:var(--pri)}
+.stats-box{font-size:13px;color:var(--mut);background:#EAEFF5;border-radius:10px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.stats-box button{width:auto;min-height:28px;padding:2px 8px;font-size:12px;border:1px solid var(--line);background:#fff;border-radius:6px;font-weight:normal;color:var(--mut)}
 [hidden]{display:none!important}
 </style>
 </head>
@@ -58,6 +60,10 @@ a{color:var(--pri)}
 <button class="p" id="check" type="button">Check warning signs</button>
 <button class="s" id="sample" type="button">Try an example</button>
 <p class="m" style="text-align:center">Checked on your device. Nothing is uploaded. ScamLens can't confirm a deal is safe or a scam.</p>
+<div class="stats-box" id="statsBox" aria-live="polite">
+<span id="statsText">Checks run on this device: 0</span>
+<button id="resetStats" type="button" title="Reset local counter">Reset</button>
+</div>
 </section>
 
 <!-- Screen 2 -->
@@ -99,14 +105,15 @@ a{color:var(--pri)}
 var $=function(i){return document.getElementById(i)};
 var mode='buy',last=null;
 var RULES=[
-{id:'deposit',m:['buy'],w:3,re:/\b(deposit|reserve|reservation|hold (it|the)|secure (it|the)|booking fee)\b/i,t:'Deposit before inspection',y:'Paying up front to "reserve" an item is a common scam step.'},
+{id:'deposit',m:['buy'],w:3,re:/(?<!direct\s)\b(deposit|reserve|reservation|hold (it|the)|secure (it|the)|booking fee)\b/i,t:'Deposit before inspection',y:'Paying up front to "reserve" an item is a common scam step.'},
 {id:'urgency',m:['buy','sell'],w:2,re:/\b(other buyers|many buyers|someone else|first to pay|hurry|today only|won't last|asap|act fast|waiting)\b/i,t:'Pressure to act fast',y:'Urgency stops you from checking things properly.'},
-{id:'pay',m:['buy','sell'],w:2,re:/\b(payid|osko|bank transfer|direct deposit|western union|gift ?card|itunes|crypto|bitcoin|zelle|cash ?app|prepaid)\b/i,t:'Hard-to-reverse payment method',y:'Instant transfers and gift cards are very hard to recover.'},
+{id:'pay_risky',m:['buy','sell'],w:3,re:/\b(western union|gift ?card|itunes|crypto|bitcoin|usdt|zelle|cash ?app)\b/i,t:'Unusual or untraceable payment',y:'Gift cards, crypto, and overseas apps (Zelle/CashApp) cannot be reversed and are heavily used in scams.'},
+{id:'pay',m:['buy','sell'],w:2,re:/\b(payid|osko|bank transfer|direct deposit|prepaid)\b/i,t:'Hard-to-reverse payment method',y:'Instant transfers and PayID are very hard to recover once sent.'},
 {id:'off',m:['buy','sell'],w:2,re:/\b(whatsapp|telegram|signal|gmail|email me|text me|move (this )?(chat|conversation))\b/i,t:'Moving off Marketplace',y:'Scammers move chats away from platform protections.'},
 {id:'conf',m:['sell'],w:3,re:/(i('ve| have) (paid|sent|transferred)|payment (sent|received|pending|confirmation)|funds (on hold|pending|will be released)|upgrade your (account|seller)|verify your (account|payment))/i,t:'Payment confirmation to act on',y:'Fake "payment sent" notices often ask you to click a link or pay a fee. Only trust your own bank app.'},
 {id:'over',m:['sell'],w:3,re:/(overpa|extra (money|\$)|refund the difference|send (the )?(rest|difference|change) back|pay (my|the) (courier|agent))/i,t:'Overpayment or refund request',y:'Classic scam: pay too much, then ask for the difference back.'},
 {id:'cour',m:['sell'],w:2,re:/\b(courier|shipping agent|delivery agent|pick ?up agent|my agent|freight)\b/i,t:'Courier or agent arranged by the buyer',y:'Fake courier sites collect card or bank details.'},
-{id:'meet',m:['buy'],w:2,re:/(can't meet|cannot meet|out of town|overseas|interstate|deployed|no inspection|can't inspect|post it|ship it)/i,t:'No chance to inspect in person',y:'Not being able to meet is a common reason scammers give.'},
+{id:'meet',m:['buy','sell'],w:2,re:/(can't meet|cannot meet|out of town|overseas|interstate|deployed|offshore rig|no inspection|can't inspect|post it|ship it)/i,t:'Unable to meet in person',y:'Excuses about being overseas, interstate, deployed, or unable to meet in person are common warning signs.'},
 {id:'link',m:['buy','sell'],w:2,re:/(https?:\/\/|www\.|bit\.ly)/i,t:'Link in the message',y:'Don\'t enter card or bank details on a link a stranger sends.'},
 {id:'info',m:['buy','sell'],w:3,re:/(card number|cvv|password|login code|verification code|\botp\b|one[- ]time|licen[cs]e photo|id photo)/i,t:'Asks for sensitive details',y:'Sellers and buyers never need your codes or passwords.'}
 ];
@@ -117,7 +124,36 @@ RULES.forEach(function(r){if(r.m.indexOf(mode)>-1&&r.re.test(t)){hits.push(r);s+
 var p=num($('pr').value),u=num($('us').value);
 if(mode==='buy'&&p>0&&u>0&&p<u*0.7){var d=Math.round((1-p/u)*100),w=p<u*0.5?3:2;hits.push({id:'price',w:w,t:'Price well below usual',y:'$'+p+' is about '+d+'% below $'+u+'. Very low prices attract scammers.'});s+=w}
 var lv=s===0?0:s<=2?1:s<=4?2:3;
-last={hits:hits,lv:lv,msg:t};return last}
+last={hits:hits,lv:lv,msg:t};
+recordCheck(mode,hits.length);
+return last}
+
+function getStats(){
+try{
+var raw=localStorage.getItem('scamlens_stats');
+var parsed=raw?JSON.parse(raw):{};
+return{
+totalChecks:parsed.totalChecks||0,
+buyChecks:parsed.buyChecks||0,
+sellChecks:parsed.sellChecks||0,
+flagsDetected:parsed.flagsDetected||0
+};
+}catch(e){return{totalChecks:0,buyChecks:0,sellChecks:0,flagsDetected:0}}
+}
+function recordCheck(m,flagsCount){
+var s=getStats();
+s.totalChecks++;
+if(m==='buy')s.buyChecks++;else s.sellChecks++;
+s.flagsDetected+=flagsCount;
+try{localStorage.setItem('scamlens_stats',JSON.stringify(s))}catch(e){}
+renderStats();
+}
+function renderStats(){
+var s=getStats();
+var el=$('statsText');
+if(el){el.textContent='Checks run on this device: '+s.totalChecks+' ('+s.buyChecks+' buy, '+s.sellChecks+' sell)'}
+}
+
 var LV=[['No common warning signs found','That doesn\'t mean it\'s safe. Keep checking before you pay.'],['Some warning signs','Take it slowly and check the items below.'],['Several warning signs','Don\'t send money yet.'],['Strong warning signs','Don\'t send money. These are common scam patterns.']];
 function show(id){['v1','v2','v3','v4'].forEach(function(v){var e=$(v);e.hidden=v!==id;if(v===id)e.style.display='flex'});window.scrollTo(0,0)}
 var ICON='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="2" aria-hidden="true" style="flex:none;margin-top:2px"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/></svg>';
@@ -130,7 +166,7 @@ show('v2')}
 function reply(){
 var ids=last.hits.map(function(h){return h.id}),has=function(x){return ids.indexOf(x)>-1},o=[];
 if(mode==='buy'){
-o.push(has('deposit')||has('pay')?'Thanks for confirming availability. I\'d prefer to inspect the item before making any payment.':'Thanks for your reply. I\'d like to inspect the item before paying.');
+o.push(has('deposit')||has('pay')||has('pay_risky')?'Thanks for confirming availability. I\'d prefer to inspect the item before making any payment.':'Thanks for your reply. I\'d like to inspect the item before paying.');
 o.push(has('meet')?'Can we arrange a public pickup, or a video call showing the item working?':'Can we arrange a public meeting location?');
 if(has('off'))o.push('I\'d like to keep chatting here on Marketplace.');
 }else{
@@ -150,7 +186,8 @@ $('copy').onclick=function(){var t=$('reply').textContent,b=$('copy');var ok=fun
 $('toPaid').onclick=function(){show('v4')};
 $('back').onclick=function(){show('v1')};$('back2').onclick=function(){render()};$('back3').onclick=function(){show('v2')};
 $('next').onclick=function(){$('msg').value='';show('v1');$('msg').focus()};
-setMode('buy');show('v1');
+$('resetStats').onclick=function(){try{localStorage.removeItem('scamlens_stats')}catch(e){}renderStats()};
+setMode('buy');show('v1');renderStats();
 })();
 </script>
 </body>
